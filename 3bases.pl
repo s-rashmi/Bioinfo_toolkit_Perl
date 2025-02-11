@@ -1,4 +1,8 @@
 #!/usr/bin/perl -w
+# 3bases.pl - 
+# Given an input fasta file of DNA sequences, output the sequences as codons sets of 3 nucleotides
+# ATGCTAGCATGCATCG -> ATG CTA GCA TGC ATC G
+# output filename: inputfile.3bases
 
 $filename = $ARGV[0];
 open F, $filename;
