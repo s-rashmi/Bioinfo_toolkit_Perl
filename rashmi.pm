@@ -28,43 +28,59 @@ use Slctree;
 use slchen;
 
 #--------------------------------------------------------------
-# Sub-routines
+# Sub-routines in the package
 # for arrays and hashes, pass them to the subroutine as references
 
-# return my database credentials
+# 1) mysql_connect - connect to a host
+# 2) hyphy_basepath - get basepath of HYPHY installed on the host
+# 3) single_breakpoint - get variables to be passed to Hyphy-SBP, check if SBP reports recombination and return results
+# 4) run_gard - get variables to be passed to Hyphy-Gard, and return results
+# 5) run_gard_processor - run GARDProcessor and return results
+# 6) parse_gard - Parse GARD & GARD processor results for breakpoints and pvalues
+# 7) fragement - get sequence and breakpoints from GARD and fragment the alignment at the breakpoints
+# 8) run_NielsenYang - run NielsenYang.bf for site and branch analysis (Model 1a and 2 of PAML)
+# 9) parse_Nielsenyang - parse output from NielsenYang.bf for lnL, dN/dS and Nparams for each model
+#10) run_YangNielsen_bs - run YangNielsenBranchSite2005.bf for branch site analysis 
+#11) parse_YangNielsen_bs - parse output from YangNielsenBranchSite2005.bf for kappa, lnL, omega and pvalues
+#12) run_phyml - given sequences, convert from fasta to phylip format, run phyml, parse phyml results for tree and tree parameters
+#13) rm_bootstrap - remove bootstrap values from phyml tree as hyphy segfaults if it is present
+#14) full_tree_text - to get a tree string without bootstrap values 
+#15) tree_text_wo_bootstrap - print out tree text from tree data hash
+#16) tree2num - given a tree, find the numbers assigned to its leaves and nodes by hyphy, return the number list
+#17) fast2nex_bayes - given a fasta, output interleaved nex format compatible with Mr Bayes software
+#18) rm_duplicates - given an alignment, remove duplicates and return unique set
+#19) rm_gap_duplicates - given an alignment, remove duplicates including ones with gaps, return unique set
+#######################################################################
+
+
+# Connect to a host
+# usage: mysql_connect(database, host, username, password)
 sub mysql_connect {
   my $database = $_[0];
-  if (!defined $database) { $database = "rashmi_test"; } 
-  my $host = 'slchen.gis.a-star.edu.sg';
-  my $user = 'rashmi';
-  my $pass = 'rashmi';
+  if (!defined $database) { $database = "test"; } 
+  my $host = $_[1];
+  my $user = $_[2];
+  my $pass = $_[3];
   my $dbh = DBI->connect('DBI:mysql:database='.$database.';host='.$host, $user, $pass, { LongReadLen => 100000000 });
 
   return $dbh;
 }
 # END MYSQL_CONNECT
 
-
-# get basepath of HYPHY
+# get basepath of HYPHY installed on the host
+# usage: hyphy_basepath
 sub hyphy_basepath {
   my $hostname = `hostname`;
   chomp $hostname;
   my $basepath = "";
-  if( $hostname =~ /compute-/){
-    $basepath = "/home/gisv88/bin/hyphy/";
-  } else {
-    #my @location = `locate HYPHY`;
-    #defined $location[0] 
-    #or die "Can't locate HYPHY. Make sure HYPHY is installed!\n";
-    #chomp $location[0];
-    #$basepath = $location[0]."/";
-    $basepath = "/usr/local/src/hyphy_2.0/hyphy/";
-  }
+  my @location = `locate HYPHY`;
+  defined $location[0] 
+  or die "Can't locate HYPHY. Make sure HYPHY is installed!\n";
+  chomp $location[0];
+  $basepath = $location[0]."/";
   return $basepath;
 }
 # END HYPHY_LIBPATH
-
-
 
 # given a reference to a hash, get variables to be passed to Hyphy-SBP
 # run sbp and return the results
@@ -512,8 +528,6 @@ sub fragment {
   return @fragments;
 }
 # END FRAGMENT
-
-
 
 # given a reference to a hash, get variables
 # run NielsenYang.bf - for site and branch analysis (Model 1a and 2 of PAML)
