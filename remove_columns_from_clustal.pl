@@ -1,3 +1,5 @@
+# given an alignment and a file with positions to be removed,
+# the script removes the positions from the alignment
 #!/usr/bin/perl -w
 
 open FILE, $ARGV[0];
