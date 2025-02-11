@@ -1,4 +1,4 @@
-# this set of tools does the following
+# Given a string of DNA sequence
 # 1) check whether given sequence is a DNA
 # 2) count the nucleotide frequency
 # 3) Calculate GC & AT content
