@@ -1,1 +1,48 @@
-This repo contains Perl scripts written for various Bioinformatics work
+**Perl scripts written for Bioinformatics**
+
+3bases.pl
+# to split nucleotides as codons sets of 3 nucleotides
+ATGCTAGCATGCATCG -> ATG CTA GCA TGC ATC G
+
+DNA_tools.pl 
+# Given a string of DNA sequence
+# 1) check whether given sequence is a DNA
+# 2) count the nucleotide frequency
+# 3) Calculate GC & AT content
+
+ORF_translate.pl
+# find reading frames and ORF of given DNA
+# count the number of codons and check if the codons are complete
+# if complete translate
+
+remove_columns_from_clustal.pl
+remove columns from a CLUSTAL alignment. Given an alignment and a file with positions to be removed,the script removes the positions from the alignment
+
+reverse_comp.pl
+print the reverse complement of a given DNA sequence
+
+transcription.pl
+print the transcribed RNA sequence of a given DNA sequence
+
+Perl package rashmi.pm
+# Sub-routines in the package
+# 1) mysql_connect - connect to a host
+# 2) hyphy_basepath - get basepath of HYPHY installed on the host
+# 3) single_breakpoint - get variables to be passed to Hyphy-SBP, check if SBP reports recombination and return results
+# 4) run_gard - get variables to be passed to Hyphy-Gard, and return results
+# 5) run_gard_processor - run GARDProcessor and return results
+# 6) parse_gard - Parse GARD & GARD processor results for breakpoints and pvalues
+# 7) fragement - get sequence and breakpoints from GARD and fragment the alignment at the breakpoints
+# 8) run_NielsenYang - run NielsenYang.bf for site and branch analysis (Model 1a and 2 of PAML)
+# 9) parse_Nielsenyang - parse output from NielsenYang.bf for lnL, dN/dS and Nparams for each model
+#10) run_YangNielsen_bs - run YangNielsenBranchSite2005.bf for branch site analysis 
+#11) parse_YangNielsen_bs - parse output from YangNielsenBranchSite2005.bf for kappa, lnL, omega and pvalues
+#12) run_phyml - given sequences, convert from fasta to phylip format, run phyml, parse phyml results for tree and tree parameters
+#13) rm_bootstrap - remove bootstrap values from phyml tree as hyphy segfaults if it is present
+#14) full_tree_text - to get a tree string without bootstrap values 
+#15) tree_text_wo_bootstrap - print out tree text from tree data hash
+#16) tree2num - given a tree, find the numbers assigned to its leaves and nodes by hyphy, return the number list
+#17) fast2nex_bayes - given a fasta, output interleaved nex format compatible with Mr Bayes software
+#18) rm_duplicates - given an alignment, remove duplicates and return unique set
+#19) rm_gap_duplicates - given an alignment, remove duplicates including ones with gaps, return unique set
+
